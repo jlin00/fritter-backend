@@ -313,3 +313,264 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `403` if the user is not logged in
+
+#### `GET /api/following?user=USERNAME` - Get the following list of a user 
+
+**Returns** 
+- An array of sources followed by user with username `user`
+
+**Throws**
+- `400` if `user` is not given
+- `404` if `user` is not a recognized username of any user 
+
+#### `GET /api/followers?user=USERNAME` - Get the followers list of a user 
+
+**Returns** 
+- An array of users that follow user with username `user`
+
+**Throws**
+- `400` if `user` is not given
+- `404` if `user` is not a recognized username of any user 
+
+#### `POST /api/following` - Add a source to user's following list 
+
+**Body**
+
+- `source` _{string}_ - the source (either a username or a tag) that the user wants to follow
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `400` if `source` is not given 
+- `404` if `source` is an unrecognized username
+- `409` if `source` is already in the user's following list
+
+#### `DELETE /api/following` - Delete a source from user's following list 
+
+**Body**
+
+- `source` _{string}_ - the source (either a username or a tag) that the user wants to unfollow
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `400` if `source` is not given 
+- `404` if `source` does not exist in user's following list 
+
+#### `POST /api/filters` - Create a new filter
+
+**Body**
+
+- `name` _{string}_ - the name of the filter
+- `users` _{Set[string]}_ - the usernames to filter for
+- `tags` _{Set[string]}_ - the tags to filter for
+
+**Returns**
+
+- A success message
+- An object with the created filter
+
+**Throws**
+
+- `403` if the user is not logged in
+- `400` if `name`, `users`, or `tags` is not given 
+- `409` if user already has another filter called `name`
+- `404` if there are unrecognized usernames in `users`
+
+#### `PUT /api/filters/:filterId?` - Update an existing filter
+
+**Body**
+
+- `name` _{string}_ - the new name of the filter
+- `users` _{Set[string]}_ - the new usernames to filter for
+- `tags` _{Set[string]}_ - The new tags to filter for
+
+**Returns**
+
+- A success message
+- An object with the updated filter
+
+**Throws**
+
+- `403` if the user is not logged in
+- `403` if the user is not the creator of the filter
+- `404` if the filterId is invalid
+- `400` if `name`, `users`, or `tags` is not given 
+- `409` if user already has another filter called `name`
+- `404` if there are unrecognized usernames in `users`
+
+#### `DELETE /api/filters/:filterId?` - Delete an existing filter
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `403` if the user is not the creator of the filter
+- `404` if the filterId is invalid
+
+#### `GET /api/filters` - Get all filters by user 
+
+**Returns**
+
+- An array of all filters created by user 
+
+**Throws**
+
+- `403` if the user is not logged in
+
+#### `GET /api/filters?name=NAME` - Get filters by name
+
+**Returns**
+
+- The filter with name `name` created by user 
+
+**Throws**
+
+- `403` if the user is not logged in
+- `400` if `name` is not given
+- `404` if `name` is not a recognized filter name of any of the filters created by user 
+
+#### `POST /api/credibility/:freetId?/links` - Add a reference link for a freet 
+
+**Body**
+
+- `link` _{string}_ - the reference link
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `404` if the freetId is invalid
+- `400` if `link` is not given
+- `413` if `link` is not a valid URL
+
+#### `DELETE /api/credibility/:freetId?/links/:linkId?` - Delete a reference link for a freet 
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `404` if the freetId is invalid
+- `404` if the linkId is invalid
+- `403` if the user is not the one who added that link
+
+#### `GET /api/credibility/:freetId?/links` - Get all reference links for a freet 
+
+**Returns**
+
+- An array of all reference links for a freet
+
+**Throws**
+
+- `404` if the freetId is invalid
+
+#### `POST /api/credibility/:freetId?/votes` - Add a credibility vote for a freet 
+
+**Body**
+
+- `credible` _{boolean}_ - whether or not the freet is credible
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `404` if the freetId is invalid
+- `409` if user has already added a credibility vote for the item
+
+#### `DELETE /api/credibility/:freetId?/votes` - Remove a credibility vote for a freet 
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `404` if the freetId is invalid
+- `404` if there is no vote by the user on that freet
+
+#### `GET /api/credibility/:freetId?/votes` - Get all credibility votes for a freet 
+
+**Returns**
+
+- An array of all credibility votes for a freet
+
+**Throws**
+
+- `404` if the freetId is invalid
+
+#### `GET /api/tags/:freetId?` - Get all tags for a freet 
+
+**Returns**
+
+- An array of all tags for a freet
+
+**Throws**
+
+- `404` if the freetId is invalid
+
+#### `POST /api/tags/:freetId?` - Add tags for a freet 
+
+**Body**
+
+- `tags` _{Set[string]}_ - set of tags to associate with freet
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `404` if the freetId is invalid
+- `403` if the user is not the author of the freet
+- `409` if the freet already has a set of tags associated with it 
+
+#### `PUT /api/tags/:freetId?` - Update tags for a freet 
+
+**Body**
+
+- `tags` _{Set[string]}_ - set of new tags to associate with freet
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `404` if the freetId is invalid
+- `403` if the user is not the author of the freet
+
+#### `DELETE /api/tags/:freetId?` - Remove tags for a freet 
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `404` if the freetId is invalid
+- `403` if the user is not the author of the freet
+- `404` if there is no set of tags associated with that freet
