@@ -25,7 +25,7 @@ const constructTaglistResponse = (taglist: HydratedDocument<Taglist>): TaglistRe
   return {
     ...taglistCopy,
     _id: taglistCopy._id.toString(),
-    freetId: taglist.freetId.toString(),
+    freetId: taglist.freetId._id.toString(),
     tags: taglist.tags
   };
 };
