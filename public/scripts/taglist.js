@@ -4,7 +4,6 @@
  * Fields is an object mapping the names of the form inputs to the values typed in
  * e.g. for createUser, fields has properites 'username' and 'password'
  */
-
 function getTaglist(fields) {
   fetch(`/api/tags/${fields.id}`)
     .then(showResponse)

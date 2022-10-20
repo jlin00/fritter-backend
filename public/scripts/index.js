@@ -40,6 +40,9 @@ const formsAndHandlers = {
   'edit-freet': editFreet,
   'delete-freet': deleteFreet,
   'get-taglist': getTaglist,
+  'add-taglist': addTaglist,
+  'update-taglist': updateTaglist,
+  'delete-taglist': deleteTaglist
 };
 
 // Attach handlers to forms
