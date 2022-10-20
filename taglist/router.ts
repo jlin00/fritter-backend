@@ -20,7 +20,8 @@ const router = express.Router();
 router.get(
   '/:freetId?',
   [
-    freetValidator.isFreetExists
+    freetValidator.isFreetExists,
+    taglistValidator.isTaglistExists
   ],
   async (req: Request, res: Response) => {
     const taglist = await TaglistCollection.findOne(req.params.freetId);
@@ -34,7 +35,7 @@ router.get(
  *
  * @name POST /api/tags/:freetId
  *
- * @param {string} tags - The list of tags to be associated with given freet
+ * @param {string[]} tags - The list of tags to be associated with given freet
  * @return {string} - A success message
  * @throws {403} - If the user is not logged in or is not the author of
  *                 the freet
@@ -75,7 +76,7 @@ router.delete(
     userValidator.isUserLoggedIn,
     freetValidator.isFreetExists,
     freetValidator.isValidFreetModifier,
-    taglistValidator.isTaglistExists,
+    taglistValidator.isTaglistExists
   ],
   async (req: Request, res: Response) => {
     await TaglistCollection.deleteOne(req.params.freetId);

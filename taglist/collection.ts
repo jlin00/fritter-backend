@@ -14,23 +14,23 @@ class TaglistCollection {
   /**
    * Get the taglist associated with a freetId
    *
-   * @param {string} freetId - The id of the freet
+   * @param {string} id - The id of the freet
    * @return {Promise<HydratedDocument<Taglist>> | Promise<null> } - The taglist of the freet with the given freetId, if any
    */
-  static async findOne(freetId: Types.ObjectId | string): Promise<HydratedDocument<Taglist>> {
-    return TaglistModel.findOne({_id: freetId}).populate('freetId');
+  static async findOne(id: Types.ObjectId | string): Promise<HydratedDocument<Taglist>> {
+    return TaglistModel.findOne({freetId: id}).populate('freetId');
   }
 
   /**
    * Add a taglist to the collection
    *
-   * @param {string} freetId - The id of the freet that the tags will be associated with
+   * @param {string} id - The id of the freet that the tags will be associated with
    * @param {string[]} tags - The list of tags
    * @return {Promise<HydratedDocument<Taglist>>} - The newly created Taglist
    */
-  static async addOne(freetId: Types.ObjectId | string, tags: string[]): Promise<HydratedDocument<Taglist>> {
+  static async addOne(id: Types.ObjectId | string, tags: string[]): Promise<HydratedDocument<Taglist>> {
     const taglist = new TaglistModel({
-      freetId,
+      freetId: id,
       tags
     });
     await taglist.save(); // Saves freet to MongoDB
@@ -40,12 +40,12 @@ class TaglistCollection {
   /**
    * Update a taglist with the new tags
    *
-   * @param {string} freetId - The id of the freet whose taglist is to be updated
+   * @param {string} id - The id of the freet whose taglist is to be updated
    * @param {string[]} tags - The new tags to be associated with that freet
    * @return {Promise<HydratedDocument<Taglist>>} - The newly updated taglist
    */
-  static async updateOne(freetId: Types.ObjectId | string, tags: string[]): Promise<HydratedDocument<Taglist>> {
-    const taglist = await TaglistModel.findOne({_id: freetId});
+  static async updateOne(id: Types.ObjectId | string, tags: string[]): Promise<HydratedDocument<Taglist>> {
+    const taglist = await TaglistModel.findOne({freetId: id});
     taglist.tags = tags;
     await taglist.save();
     return taglist.populate('freetId');
@@ -54,11 +54,11 @@ class TaglistCollection {
   /**
    * Delete the taglist associated with given freetId.
    *
-   * @param {string} freetId - The freetId of freet whose taglist is to be deleted
+   * @param {string} id - The freetId of freet whose taglist is to be deleted
    * @return {Promise<Boolean>} - true if the freet has been deleted, false otherwise
    */
-  static async deleteOne(freetId: Types.ObjectId | string): Promise<boolean> {
-    const taglist = await TaglistModel.deleteOne({_id: freetId});
+  static async deleteOne(id: Types.ObjectId | string): Promise<boolean> {
+    const taglist = await TaglistModel.deleteOne({freetId: id});
     return taglist !== null;
   }
 }
