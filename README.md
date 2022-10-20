@@ -370,8 +370,8 @@ This renders the `index.html` file that will be used to interact with the backen
 **Body**
 
 - `name` _{string}_ - the name of the filter
-- `users` _{Set[string]}_ - the usernames to filter for
-- `tags` _{Set[string]}_ - the tags to filter for
+- `users` _{Array[string]}_ - the usernames to filter for
+- `tags` _{Array[string]}_ - the tags to filter for
 
 **Returns**
 
@@ -390,8 +390,8 @@ This renders the `index.html` file that will be used to interact with the backen
 **Body**
 
 - `name` _{string}_ - the new name of the filter
-- `users` _{Set[string]}_ - the new usernames to filter for
-- `tags` _{Set[string]}_ - The new tags to filter for
+- `users` _{Array[string]}_ - the new usernames to filter for
+- `tags` _{Array[string]}_ - The new tags to filter for
 
 **Returns**
 
@@ -533,7 +533,7 @@ This renders the `index.html` file that will be used to interact with the backen
 
 **Body**
 
-- `tags` _{Set[string]}_ - set of tags to associate with freet
+- `tags` _{Array[string]}_ - list of tags to associate with freet
 
 **Returns**
 
@@ -544,13 +544,13 @@ This renders the `index.html` file that will be used to interact with the backen
 - `403` if the user is not logged in
 - `404` if the freetId is invalid
 - `403` if the user is not the author of the freet
-- `409` if the freet already has a set of tags associated with it 
+- `409` if the freet already has a list of tags associated with it 
 
 #### `PUT /api/tags/:freetId?` - Update tags for a freet 
 
 **Body**
 
-- `tags` _{Set[string]}_ - set of new tags to associate with freet
+- `tags` _{Array[string]}_ - list of new tags to associate with freet
 
 **Returns**
 
@@ -561,6 +561,7 @@ This renders the `index.html` file that will be used to interact with the backen
 - `403` if the user is not logged in
 - `404` if the freetId is invalid
 - `403` if the user is not the author of the freet
+- `404` if there is no list of tags associated with that freet
 
 #### `DELETE /api/tags/:freetId?` - Remove tags for a freet 
 
@@ -573,4 +574,4 @@ This renders the `index.html` file that will be used to interact with the backen
 - `403` if the user is not logged in
 - `404` if the freetId is invalid
 - `403` if the user is not the author of the freet
-- `404` if there is no set of tags associated with that freet
+- `404` if there is no list of tags associated with that freet
