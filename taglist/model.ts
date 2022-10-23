@@ -1,6 +1,7 @@
 import type {Types, PopulatedDoc, Document} from 'mongoose';
 import {Schema, model} from 'mongoose';
 import type {Freet} from 'freet/model';
+import type {Tag} from 'tag/model';
 
 /**
  * This file defines the properties stored in a Taglist
@@ -11,13 +12,13 @@ import type {Freet} from 'freet/model';
 export type Taglist = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   freetId: Types.ObjectId;
-  tags: string[];
+  tags: Types.ObjectId[];
 };
 
 export type PopulatedTaglist = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   freetId: Freet;
-  tags: string[];
+  tags: Tag[];
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
@@ -33,7 +34,10 @@ const TaglistSchema = new Schema<Taglist>({
   },
   // The tags associated with the freet
   tags: {
-    type: [String],
+    type: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Tag'
+    }],
     required: true
   }
 });

@@ -1,10 +1,13 @@
 import type {NextFunction, Request, Response} from 'express';
 import express from 'express';
 import TaglistCollection from './collection';
+import TagCollection from '../tag/collection';
 import * as userValidator from '../user/middleware';
 import * as freetValidator from '../freet/middleware';
 import * as taglistValidator from './middleware';
 import * as util from './util';
+import type {Types} from 'mongoose';
+import type {Tag} from 'tag/model';
 
 const router = express.Router();
 
@@ -41,6 +44,7 @@ router.get(
  *                 the freet
  * @throws {404} - If no freet has given freetId
  * @throws {409} - If the freet already has a list of tags associated with it
+ * @throws {400} - If the tags are wrongly formatted
  */
 router.post(
   '/:freetId?',
@@ -48,10 +52,12 @@ router.post(
     userValidator.isUserLoggedIn,
     freetValidator.isFreetExists,
     freetValidator.isValidFreetModifier,
-    taglistValidator.noTaglistExists
+    taglistValidator.noTaglistExists,
+    taglistValidator.isValidTaglist
   ],
   async (req: Request, res: Response) => {
-    const taglist = await TaglistCollection.addOne(req.params.freetId, req.body.tags);
+    const tags = await createTags(req.body.tags);
+    const taglist = await TaglistCollection.addOne(req.params.freetId, tags);
 
     res.status(200).json({
       message: 'Tags were added to your freet successfully.'
@@ -97,6 +103,7 @@ router.delete(
  *                 of the freet
  * @throws {404} - If the freetId is not valid or there is no taglist
  *                 associated with that freet
+ * @throws {400} - If the tags are wrongly formatted
  */
 router.put(
   '/:freetId?',
@@ -104,15 +111,34 @@ router.put(
     userValidator.isUserLoggedIn,
     freetValidator.isFreetExists,
     freetValidator.isValidFreetModifier,
-    taglistValidator.isTaglistExists
+    taglistValidator.isTaglistExists,
+    taglistValidator.isValidTaglist
   ],
   async (req: Request, res: Response) => {
-    const taglist = await TaglistCollection.updateOne(req.params.freetId, req.body.tags);
+    const tags = await createTags(req.body.tags);
+    const taglist = await TaglistCollection.updateOne(req.params.freetId, tags);
     res.status(200).json({
       message: 'Your freet was updated successfully.',
       taglist: util.constructTaglistResponse(taglist)
     });
   }
 );
+
+/**
+ * Given list of strings representing tags, return tag objects.
+ *
+ * @param {string[]} taglist - A list of tags represented as strings
+ * @returns {Types.ObjectId[]} - A list of ids associated with the tag objects
+ */
+const createTags = async (taglist: string[]): Promise<Types.ObjectId[]> => {
+  const promises = [];
+
+  for (const tag of taglist) {
+    promises.push(TagCollection.findOrCreateOne(tag));
+  }
+
+  const tags: Tag[] = await Promise.all(promises);
+  return tags.map(tag => tag._id);
+};
 
 export {router as taglistRouter};
