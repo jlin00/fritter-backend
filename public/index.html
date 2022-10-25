@@ -8,6 +8,7 @@
   <script src="/scripts/freet.js"></script>
   <script src="/scripts/user.js"></script>
   <script src="/scripts/taglist.js"></script>
+  <script src="/scripts/follow.js"></script>
   <script src="/scripts/index.js"></script>
 </head>
 
@@ -162,6 +163,50 @@
           </div>
           <input type="submit" value="Delete Taglist">
         </form>
+        
+        <form id="get-following">
+          <h3>Get Following</h3>
+          <div>
+            <label for="username">Username:</label>
+            <input id="username" name="username">
+          </div>
+          <input type="submit" value="Get Following">
+        </form>
+
+        <form id="get-followers">
+          <h3>Get Followers</h3>
+          <div>
+            <label for="username">Username:</label>
+            <input id="username" name="username">
+          </div>
+          <input type="submit" value="Get Followers">
+        </form>
+
+        <form id="follow-source">
+          <h3>Follow Source</h3>
+          <div>
+            <label for="source">Source:</label>
+            <input id="source" name="source">
+          </div>
+          <div>
+            <label for="type">Choose a source type:</label>
+            <select id="type" name="type">
+              <option value="User">User</option>
+              <option value="Tag">Tag</option>
+            </select>
+          </div>
+          <input type="submit" value="Follow Source">
+        </form>
+
+        <form id="delete-follow">
+          <h3>Unfollow Source</h3>
+          <div>
+            <label for="id">ID:</label>
+            <input id="id" name="id">
+          </div>
+          <input type="submit" value="Delete Follow">
+        </form>
+
       </div>
     </section>
     <section>

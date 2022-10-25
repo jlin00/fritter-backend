@@ -52,7 +52,7 @@ class FreetCollection {
   }
 
   /**
-   * Get all the freets in by given author
+   * Get all the freets by given author
    *
    * @param {string} username - The username of author of the freets
    * @return {Promise<HydratedDocument<Freet>[]>} - An array of all of the freets

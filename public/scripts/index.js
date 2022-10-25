@@ -42,7 +42,11 @@ const formsAndHandlers = {
   'get-taglist': getTaglist,
   'add-taglist': addTaglist,
   'update-taglist': updateTaglist,
-  'delete-taglist': deleteTaglist
+  'delete-taglist': deleteTaglist,
+  'get-following': getFollowing,
+  'get-followers': getFollowers,
+  'follow-source': followSource,
+  'delete-follow': deleteFollow
 };
 
 // Attach handlers to forms

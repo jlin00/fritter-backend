@@ -336,46 +336,44 @@ This renders the `index.html` file that will be used to interact with the backen
 
 - `403` if the user is not logged in
 
-#### `GET /api/following?user=USERNAME` - Get the following list of a user 
+#### `GET /api/follow?followingOf=USERNAME` - Get the following list of a given user
 
 **Returns** 
-- An array of sources followed by user with username `user`
+- An array of sources followed by given user with username `followingOf`
 
 **Throws**
-- `400` if `user` is not given
-- `404` if `user` is not a recognized username of any user 
+- `400` if `followingOf` is not given
+- `404` if `followingOf` is not a recognized username of any user 
 
-#### `GET /api/followers?user=USERNAME` - Get the followers list of a user 
+#### `GET /api/follow?followersOf=USERNAME` - Get all the followers of a given user
 
 **Returns** 
-- An array of users that follow user with username `user`
+- An array of users that follow user with username `followersOf`
 
 **Throws**
-- `400` if `user` is not given
-- `404` if `user` is not a recognized username of any user 
+- `400` if `followersOf` is not given
+- `404` if `followersOf` is not a recognized username of any user 
 
-#### `POST /api/following` - Add a source to user's following list 
+#### `POST /api/follow` - Add a source to user's following list 
 
 **Body**
 
-- `source` _{string}_ - the source (either a username or a tag) that the user wants to follow
+- `source` _{string}_ - the name of the source (either a username or a tag) that the user wants to follow
+- `type` _{string}_ - the type of the source 
 
 **Returns**
 
 - A success message
+- A object with the created follow
 
 **Throws**
 
 - `403` if the user is not logged in
-- `400` if `source` is not given 
-- `404` if `source` is an unrecognized username
+- `404` if `source` is an invalid username
 - `409` if `source` is already in the user's following list
+- `404` if `type` is not either 'User' or 'Tag'
 
-#### `DELETE /api/following` - Delete a source from user's following list 
-
-**Body**
-
-- `source` _{string}_ - the source (either a username or a tag) that the user wants to unfollow
+#### `DELETE /api/follow/:followId?` - Delete follow
 
 **Returns**
 
@@ -384,8 +382,8 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `403` if the user is not logged in
-- `400` if `source` is not given 
-- `404` if `source` does not exist in user's following list 
+- `403` if the user is not the follower in the follow object
+- `404` if the followId is invalid
 
 #### `POST /api/filters` - Create a new filter
 
@@ -403,7 +401,6 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `403` if the user is not logged in
-- `400` if `name`, `users`, or `tags` is not given 
 - `409` if user already has another filter called `name`
 - `404` if there are unrecognized usernames in `users`
 
@@ -425,7 +422,6 @@ This renders the `index.html` file that will be used to interact with the backen
 - `403` if the user is not logged in
 - `403` if the user is not the creator of the filter
 - `404` if the filterId is invalid
-- `400` if `name`, `users`, or `tags` is not given 
 - `409` if user already has another filter called `name`
 - `404` if there are unrecognized usernames in `users`
 
@@ -477,7 +473,6 @@ This renders the `index.html` file that will be used to interact with the backen
 
 - `403` if the user is not logged in
 - `404` if the freetId is invalid
-- `400` if `link` is not given
 - `413` if `link` is not a valid URL
 
 #### `DELETE /api/credibility/:freetId?/links/:linkId?` - Delete a reference link for a freet 
@@ -560,6 +555,7 @@ This renders the `index.html` file that will be used to interact with the backen
 **Returns**
 
 - A success message
+- A object with the created taglist
 
 **Throws**
 
@@ -578,6 +574,7 @@ This renders the `index.html` file that will be used to interact with the backen
 **Returns**
 
 - A success message
+- A object with the updated taglist
 
 **Throws**
 

@@ -11,7 +11,7 @@ const isFreetExists = async (req: Request, res: Response, next: NextFunction) =>
   if (!freet) {
     res.status(404).json({
       error: {
-        freetNotFound: `Freet with freet ID ${req.params.freetId} does not exist.`
+        message: `Freet with freet ID ${req.params.freetId} does not exist.`
       }
     });
     return;
@@ -28,14 +28,18 @@ const isValidFreetContent = (req: Request, res: Response, next: NextFunction) =>
   const {content} = req.body as {content: string};
   if (!content.trim()) {
     res.status(400).json({
-      error: 'Freet content must be at least one character long.'
+      error: {
+        message: 'Freet content must be at least one character long.'
+      }
     });
     return;
   }
 
   if (content.length > 140) {
     res.status(413).json({
-      error: 'Freet content must be no more than 140 characters.'
+      error: {
+        message: 'Freet content must be no more than 140 characters.'
+      }
     });
     return;
   }
@@ -51,7 +55,9 @@ const isValidFreetModifier = async (req: Request, res: Response, next: NextFunct
   const userId = freet.authorId._id;
   if (req.session.userId !== userId.toString()) {
     res.status(403).json({
-      error: 'Cannot modify other users\' freets.'
+      error: {
+        message: 'Cannot modify other users\' freets.'
+      }
     });
     return;
   }

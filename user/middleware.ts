@@ -15,7 +15,7 @@ const isCurrentSessionUserExists = async (req: Request, res: Response, next: Nex
       req.session.userId = undefined;
       res.status(500).json({
         error: {
-          userNotFound: 'User session was not recognized.'
+          message: 'User session was not recognized.'
         }
       });
       return;
@@ -33,7 +33,7 @@ const isValidUsername = (req: Request, res: Response, next: NextFunction) => {
   if (!usernameRegex.test(req.body.username)) {
     res.status(400).json({
       error: {
-        username: 'Username must be a nonempty alphanumeric string.'
+        message: 'Username must be a nonempty alphanumeric string.'
       }
     });
     return;
@@ -50,7 +50,7 @@ const isValidPassword = (req: Request, res: Response, next: NextFunction) => {
   if (!passwordRegex.test(req.body.password)) {
     res.status(400).json({
       error: {
-        password: 'Password must be a nonempty string.'
+        message: 'Password must be a nonempty string.'
       }
     });
     return;
@@ -66,7 +66,7 @@ const isAccountExists = async (req: Request, res: Response, next: NextFunction) 
   const {username, password} = req.body as {username: string; password: string};
 
   if (!username || !password) {
-    res.status(400).json({error: `Missing ${username ? 'password' : 'username'} credentials for sign in.`});
+    res.status(400).json({error: {message: `Missing ${username ? 'password' : 'username'} credentials for sign in.`}});
     return;
   }
 
@@ -77,7 +77,7 @@ const isAccountExists = async (req: Request, res: Response, next: NextFunction) 
   if (user) {
     next();
   } else {
-    res.status(401).json({error: 'Invalid user login credentials provided.'});
+    res.status(401).json({error: {message: 'Invalid user login credentials provided.'}});
   }
 };
 
@@ -96,7 +96,7 @@ const isUsernameNotAlreadyInUse = async (req: Request, res: Response, next: Next
 
   res.status(409).json({
     error: {
-      username: 'An account with this username already exists.'
+      message: 'An account with this username already exists.'
     }
   });
 };
@@ -108,7 +108,7 @@ const isUserLoggedIn = (req: Request, res: Response, next: NextFunction) => {
   if (!req.session.userId) {
     res.status(403).json({
       error: {
-        auth: 'You must be logged in to complete this action.'
+        message: 'You must be logged in to complete this action.'
       }
     });
     return;
@@ -123,7 +123,9 @@ const isUserLoggedIn = (req: Request, res: Response, next: NextFunction) => {
 const isUserLoggedOut = (req: Request, res: Response, next: NextFunction) => {
   if (req.session.userId) {
     res.status(403).json({
-      error: 'You are already signed in.'
+      error: {
+        message: 'You are already signed in.'
+      }
     });
     return;
   }
@@ -137,7 +139,9 @@ const isUserLoggedOut = (req: Request, res: Response, next: NextFunction) => {
 const isAuthorExists = async (req: Request, res: Response, next: NextFunction) => {
   if (!req.query.author) {
     res.status(400).json({
-      error: 'Provided author username must be nonempty.'
+      error: {
+        message: 'Provided author username must be nonempty.'
+      }
     });
     return;
   }
@@ -145,7 +149,9 @@ const isAuthorExists = async (req: Request, res: Response, next: NextFunction) =
   const user = await UserCollection.findOneByUsername(req.query.author as string);
   if (!user) {
     res.status(404).json({
-      error: `A user with username ${req.query.author as string} does not exist.`
+      error: {
+        message: `A user with username ${req.query.author as string} does not exist.`
+      }
     });
     return;
   }

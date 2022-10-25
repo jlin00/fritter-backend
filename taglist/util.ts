@@ -1,12 +1,16 @@
 import type {HydratedDocument} from 'mongoose';
-import moment from 'moment';
 import type {Taglist, PopulatedTaglist} from './model';
 
 // Update this if you add a property to the Taglist type!
 type TaglistResponse = {
   _id: string;
   freetId: string;
-  tags: string[];
+  tags: TagResponse[];
+};
+
+type TagResponse = {
+  _id: string;
+  tag: string;
 };
 
 /**
@@ -26,7 +30,7 @@ const constructTaglistResponse = (taglist: HydratedDocument<Taglist>): TaglistRe
     ...taglistCopy,
     _id: taglistCopy._id.toString(),
     freetId: taglistCopy.freetId._id.toString(),
-    tags: taglistCopy.tags.map(tag => tag.tag)
+    tags: taglistCopy.tags.map(t => ({_id: t._id.toString(), tag: t.tag}))
   };
 };
 
