@@ -15,7 +15,7 @@ class TagCollection {
    * Get or create a tag object given its name.
    *
    * @param {string} name - The name of the tag
-   * @return {Promise<HydratedDocument<Tag>> | Promise<null> } - The tag object
+   * @return {Promise<HydratedDocument<Tag>>} - The tag object
    */
   static async findOrCreateOne(name: string): Promise<HydratedDocument<Tag>> {
     const tag = await TagModel.findOne({tag: name});
@@ -25,6 +25,7 @@ class TagCollection {
         tag: name
       });
       await tag.save();
+      return tag;
     }
 
     return tag;

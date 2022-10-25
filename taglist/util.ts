@@ -5,12 +5,7 @@ import type {Taglist, PopulatedTaglist} from './model';
 type TaglistResponse = {
   _id: string;
   freetId: string;
-  tags: TagResponse[];
-};
-
-type TagResponse = {
-  _id: string;
-  tag: string;
+  tags: string[];
 };
 
 /**
@@ -30,7 +25,7 @@ const constructTaglistResponse = (taglist: HydratedDocument<Taglist>): TaglistRe
     ...taglistCopy,
     _id: taglistCopy._id.toString(),
     freetId: taglistCopy.freetId._id.toString(),
-    tags: taglistCopy.tags.map(t => ({_id: t._id.toString(), tag: t.tag}))
+    tags: taglistCopy.tags.map(t => t.tag)
   };
 };
 
