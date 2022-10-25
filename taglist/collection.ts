@@ -1,6 +1,5 @@
 import type {HydratedDocument, Types} from 'mongoose';
 import type {Taglist} from './model';
-import type {Tag} from 'tag/model';
 import TaglistModel from './model';
 
 /**

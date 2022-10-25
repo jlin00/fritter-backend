@@ -12,6 +12,16 @@ import TagModel from './model';
  */
 class TagCollection {
   /**
+   * Find a tag by tagId
+   *
+   * @param {string} tagId - The id of the tag to find
+   * @return {Promise<HydratedDocument<Tag>> | Promise<null> } - The tag with the given tagId, if any
+   */
+  static async findOne(tagId: Types.ObjectId | string): Promise<HydratedDocument<Tag>> {
+    return TagModel.findOne({_id: tagId});
+  }
+
+  /**
    * Get or create a tag object given its name.
    *
    * @param {string} name - The name of the tag

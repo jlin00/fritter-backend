@@ -39,7 +39,7 @@ router.get(
  * @name POST /api/tags/:freetId
  *
  * @param {string[]} tags - The list of tags to be associated with given freet
- * @return {string} - A success message
+ * @return {TaglistResponse} - The taglist of associated with given freetId
  * @throws {403} - If the user is not logged in or is not the author of
  *                 the freet
  * @throws {404} - If no freet has given freetId
@@ -60,7 +60,8 @@ router.post(
     const taglist = await TaglistCollection.addOne(req.params.freetId, tags);
 
     res.status(200).json({
-      message: 'Tags were added to your freet successfully.'
+      message: 'Tags were added to your freet successfully.',
+      taglist: util.constructTaglistResponse(taglist)
     });
   }
 );

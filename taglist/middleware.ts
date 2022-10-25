@@ -27,7 +27,7 @@ const noTaglistExists = async (req: Request, res: Response, next: NextFunction) 
   const validFormat = Types.ObjectId.isValid(req.params.freetId);
   const taglist = validFormat ? await TaglistCollection.findOne(req.params.freetId) : '';
   if (taglist) {
-    res.status(404).json({
+    res.status(409).json({
       error: {
         taglist: `Taglist with freet ID ${req.params.freetId} already exists.`
       }
