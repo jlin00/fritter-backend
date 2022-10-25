@@ -51,7 +51,13 @@ const formsAndHandlers = {
   'get-filter-by-name': getFilterByName,
   'create-filter': createFilter,
   'update-filter': updateFilter,
-  'delete-filter': deleteFilter
+  'delete-filter': deleteFilter,
+  'get-votes': getVotes,
+  'issue-vote': issueVote,
+  'delete-vote': deleteVote,
+  'get-refs': getRefs,
+  'issue-ref': issueRef,
+  'delete-ref': deleteRef
 };
 
 // Attach handlers to forms

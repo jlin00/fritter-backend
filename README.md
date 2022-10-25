@@ -479,7 +479,7 @@ This renders the `index.html` file that will be used to interact with the backen
 - `404` if the freetId is invalid
 - `413` if `link` is not a valid URL
 
-#### `DELETE /api/credibility/:freetId?/links/:linkId?` - Delete a reference link for a freet 
+#### `DELETE /api/credibility/links/:linkId?` - Delete a reference link
 
 **Returns**
 
@@ -488,7 +488,6 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `403` if the user is not logged in
-- `404` if the freetId is invalid
 - `404` if the linkId is invalid
 - `403` if the user is not the one who added that link
 
