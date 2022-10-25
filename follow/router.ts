@@ -33,7 +33,7 @@ router.get(
   '/',
   [
     followValidator.isValidQuery,
-    followValidator.isValidUsername
+    followValidator.isValidSource
   ],
   async (req: Request, res: Response) => {
     let follows;
@@ -68,7 +68,7 @@ router.post(
     userValidator.isUserLoggedIn,
     followValidator.isValidType,
     followValidator.isNotSelf,
-    followValidator.isValidUsername,
+    followValidator.isValidSource,
     followValidator.isNotInFollowing
   ],
   async (req: Request, res: Response) => {

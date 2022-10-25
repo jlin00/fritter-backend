@@ -69,7 +69,7 @@ router.post(
 /**
  * Delete the taglist associated with a freet
  *
- * @name DELETE /api/tags/:ifreetId
+ * @name DELETE /api/tags/:freetId
  *
  * @return {string} - A success message
  * @throws {403} - If the user is not logged in or is not the author of
@@ -131,7 +131,7 @@ router.put(
  * @param {string[]} taglist - A list of tags represented as strings
  * @returns {Types.ObjectId[]} - A list of ids associated with the tag objects
  */
-const retrieveTags = async (taglist: string[]): Promise<Types.ObjectId[]> => {
+export const retrieveTags = async (taglist: string[]): Promise<Types.ObjectId[]> => {
   const promises = [];
 
   for (const tag of taglist) {

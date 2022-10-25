@@ -369,7 +369,7 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `403` if the user is not logged in
-- `404` if `source` is an invalid username
+- `404` if `source` is an invalid username or tag
 - `409` if `source` is already in the user's following list
 - `404` if `type` is not either 'User' or 'Tag'
 
@@ -390,7 +390,7 @@ This renders the `index.html` file that will be used to interact with the backen
 **Body**
 
 - `name` _{string}_ - the name of the filter
-- `users` _{Array[string]}_ - the usernames to filter for
+- `usernames` _{Array[string]}_ - the usernames to filter for
 - `tags` _{Array[string]}_ - the tags to filter for
 
 **Returns**
@@ -403,13 +403,15 @@ This renders the `index.html` file that will be used to interact with the backen
 - `403` if the user is not logged in
 - `409` if user already has another filter called `name`
 - `404` if there are unrecognized usernames in `users`
+- `404` if there are poorly formatted tags in `tags`
+- `400` if name is in the wrong format
 
 #### `PUT /api/filters/:filterId?` - Update an existing filter
 
 **Body**
 
 - `name` _{string}_ - the new name of the filter
-- `users` _{Array[string]}_ - the new usernames to filter for
+- `usernames` _{Array[string]}_ - the new usernames to filter for
 - `tags` _{Array[string]}_ - The new tags to filter for
 
 **Returns**
@@ -424,6 +426,8 @@ This renders the `index.html` file that will be used to interact with the backen
 - `404` if the filterId is invalid
 - `409` if user already has another filter called `name`
 - `404` if there are unrecognized usernames in `users`
+- `404` if there are poorly formatted tags in `tags`
+- `400` if name is in the wrong format
 
 #### `DELETE /api/filters/:filterId?` - Delete an existing filter
 

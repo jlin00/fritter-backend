@@ -9,6 +9,7 @@
   <script src="/scripts/user.js"></script>
   <script src="/scripts/taglist.js"></script>
   <script src="/scripts/follow.js"></script>
+  <script src="/scripts/filter.js"></script>
   <script src="/scripts/index.js"></script>
 </head>
 
@@ -205,6 +206,67 @@
             <input id="id" name="id">
           </div>
           <input type="submit" value="Delete Follow">
+        </form>
+
+        <form id="get-filters">
+          <h3>Get All Filters</h3>
+          <input type="submit" value="Get Filters">
+        </form>
+
+        <form id="get-filter-by-name">
+          <h3>Get Filter By Name</h3>
+          <div>
+            <label for="name">Filter Name:</label>
+            <input id="name" name="name">
+          </div>
+          <input type="submit" value="Get Filter">
+        </form>
+
+        <form id="create-filter">
+          <h3>Create Filter</h3>
+          <div>
+            <label for="name">Filter Name:</label>
+            <input id="name" name="name">
+          </div>
+          <div>
+            <label for="usernames">Usernames (comma-separated):</label>
+            <input id="usernames" name="usernames">
+          </div>
+          <div>
+            <label for="tags">Tags (comma-separated):</label>
+            <input id="tags" name="tags">
+          </div>
+          <input type="submit" value="Create Filter">
+        </form>
+
+        <form id="update-filter">
+          <h3>Update Filter</h3>
+          <div>
+            <label for="id">ID:</label>
+            <input id="id" name="id">
+          </div>
+          <div>
+            <label for="name">Filter Name:</label>
+            <input id="name" name="name">
+          </div>
+          <div>
+            <label for="usernames">Usernames (comma-separated):</label>
+            <input id="usernames" name="usernames">
+          </div>
+          <div>
+            <label for="tags">Tags (comma-separated):</label>
+            <input id="tags" name="tags">
+          </div>
+          <input type="submit" value="Update Filter">
+        </form>
+
+        <form id="delete-filter">
+          <h3>Delete Filter</h3>
+          <div>
+            <label for="id">ID:</label>
+            <input id="id" name="id">
+          </div>
+          <input type="submit" value="Delete Filter">
         </form>
 
       </div>

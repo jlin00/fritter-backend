@@ -46,7 +46,12 @@ const formsAndHandlers = {
   'get-following': getFollowing,
   'get-followers': getFollowers,
   'follow-source': followSource,
-  'delete-follow': deleteFollow
+  'delete-follow': deleteFollow,
+  'get-filters': getFilters,
+  'get-filter-by-name': getFilterByName,
+  'create-filter': createFilter,
+  'update-filter': updateFilter,
+  'delete-filter': deleteFilter
 };
 
 // Attach handlers to forms

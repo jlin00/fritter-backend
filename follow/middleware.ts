@@ -76,9 +76,9 @@ const isValidFollowModifier = async (req: Request, res: Response, next: NextFunc
 };
 
 /**
- * Checks that a given id is valid
+ * Checks that a given source is valid
  */
-const isValidUsername = async (req: Request, res: Response, next: NextFunction) => {
+const isValidSource = async (req: Request, res: Response, next: NextFunction) => {
   if (req.body.type === undefined || req.body.type === 'User') {
     const username = (req.query.followingOf as string) ?? (req.query.followersOf as string) ?? (req.body.source as string) ?? '';
     const user = await UserCollection.findOneByUsername(username);
@@ -87,6 +87,16 @@ const isValidUsername = async (req: Request, res: Response, next: NextFunction) 
       res.status(404).json({
         error: {
           message: `Given username ${username} does not exist.`
+        }
+      });
+      return;
+    }
+  } else if (req.body.type === 'Tag') {
+    const tagRegex = /^\w+$/i;
+    if (!tagRegex.test(req.body.source)) {
+      res.status(404).json({
+        error: {
+          message: 'Tag must be a nonempty alphanumeric string.'
         }
       });
       return;
@@ -136,7 +146,7 @@ const isNotSelf = async (req: Request, res: Response, next: NextFunction) => {
 export {
   isFollowExists,
   isValidFollowModifier,
-  isValidUsername,
+  isValidSource,
   isNotInFollowing,
   isNotSelf,
   isValidQuery,

@@ -141,6 +141,7 @@ router.delete(
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
     await UserCollection.deleteOne(userId);
     await FreetCollection.deleteMany(userId);
+    // TODO: what other delete synchronizations have to be made?
     req.session.userId = undefined;
     res.status(200).json({
       message: 'Your account has been deleted successfully.'

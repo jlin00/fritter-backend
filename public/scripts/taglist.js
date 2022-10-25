@@ -11,7 +11,12 @@ function getTaglist(fields) {
 }
 
 function addTaglist(fields) {
-  fields.tags = String(fields.tags).split(',');
+  if (String(fields.tags) === '') {
+    fields.tags = [];
+  } else {
+    fields.tags = String(fields.tags).split(',');
+  }
+
   fetch(`/api/tags/${fields.id}`, {method: 'POST', body: JSON.stringify(fields), headers: {'Content-Type': 'application/json'}})
     .then(showResponse)
     .catch(showResponse);
