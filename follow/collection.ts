@@ -79,6 +79,18 @@ class FollowCollection {
     const follow = await FollowModel.deleteOne({_id: followId});
     return follow !== null;
   }
+
+  /**
+   * Delete all following relationships with given userId.
+   *
+   * @param {string} userId - The relevant userId
+   * @return {Promise<boolean>} - true if all relevant follows are deleted, false otherwise
+   */
+  static async deleteManyByUserId(userId: Types.ObjectId | string): Promise<boolean> {
+    const followingList = await FollowModel.deleteMany({follower: userId});
+    const followersList = await FollowModel.deleteMany({following: userId});
+    return followingList !== null && followersList !== null;
+  }
 }
 
 export default FollowCollection;

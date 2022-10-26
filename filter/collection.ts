@@ -90,6 +90,39 @@ class FilterCollection {
   static async findOneByUserIdAndName(userId: Types.ObjectId | string, name: string): Promise<HydratedDocument<Filter>> {
     return FilterModel.findOne({creator: userId, name}).populate(['creator', 'usernames', 'tags']);
   }
+
+  /**
+   * Delete all filters associated with given userId
+   *
+   * @param {string} userId - The relevant userId
+   * @returns {Promise<boolean>} - true if the filters have been deleted, false otherwise
+   */
+  static async deleteAllByUserId(userId: Types.ObjectId | string): Promise<boolean> {
+    const filters = await FilterModel.deleteMany({creator: userId});
+    return filters !== null;
+  }
+
+  /**
+   * Remove userId from all filters it appears in.
+   *
+   * @param {string} userId - The relevant userId
+   * @return {Promise<HydratedDocument<Filter>[]>} - An array of updated filters
+   */
+  static async removeUserIdFromFilters(userId: Types.ObjectId): Promise<Array<HydratedDocument<Filter>>> {
+    const promises = [];
+    const allFilters = await FilterModel.find({});
+    for (const filter of allFilters) {
+      const {_id, name, usernames, tags} = filter;
+      const index = usernames.indexOf(userId);
+      if (index !== -1) {
+        usernames.splice(index, 1);
+      }
+
+      promises.push(this.updateOne(_id, name, usernames, tags));
+    }
+
+    return Promise.all(promises);
+  }
 }
 
 export default FilterCollection;

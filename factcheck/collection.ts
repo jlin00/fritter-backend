@@ -59,6 +59,28 @@ export class VoteCollection {
   static async findOneByFreetIdAndIssuerId(freetId: Types.ObjectId | string, issuerId: Types.ObjectId | string): Promise<HydratedDocument<Vote>> {
     return VoteModel.findOne({freetId, issuerId}).populate(['freetId', 'issuerId']);
   }
+
+  /**
+   * Delete all votes associated with given freet
+   *
+   * @param {string} freetId - The id of the freet
+   * @returns {Promise<boolean>} - true if the votes have been deleted, false otherwise
+   */
+  static async deleteManyByFreetId(freetId: Types.ObjectId | string): Promise<boolean> {
+    const votes = await VoteModel.deleteMany({freetId});
+    return votes !== null;
+  }
+
+  /**
+   * Delete all votes associated with given userId
+   *
+   * @param {string} userId - The relevant userId
+   * @returns {Promise<boolean>} - true if the votes have been deleted, false otherwise
+   */
+  static async deleteManyByUserId(userId: Types.ObjectId | string): Promise<boolean> {
+    const votes = await VoteModel.deleteMany({issuerId: userId});
+    return votes !== null;
+  }
 }
 
 export class ReferenceLinkCollection {
@@ -109,5 +131,27 @@ export class ReferenceLinkCollection {
    */
   static async findAllByFreetId(freetId: Types.ObjectId | string): Promise<Array<HydratedDocument<ReferenceLink>>> {
     return ReferenceLinkModel.find({freetId}).populate(['freetId', 'issuerId']);
+  }
+
+  /**
+   * Delete all reference links associated with given freet
+   *
+   * @param {string} freetId - The id of the freet
+   * @returns {Promise<boolean>} - true if the links have been deleted, false otherwise
+   */
+  static async deleteManyByFreetId(freetId: Types.ObjectId | string): Promise<boolean> {
+    const links = await ReferenceLinkModel.deleteMany({freetId});
+    return links !== null;
+  }
+
+  /**
+   * Delete all links associated with given userId
+   *
+   * @param {string} userId - The relevant userId
+   * @returns {Promise<boolean>} - true if the links have been deleted, false otherwise
+   */
+  static async deleteManyByUserId(userId: Types.ObjectId | string): Promise<boolean> {
+    const links = await ReferenceLinkModel.deleteMany({issuerId: userId});
+    return links !== null;
   }
 }

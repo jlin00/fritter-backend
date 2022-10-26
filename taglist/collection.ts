@@ -55,7 +55,7 @@ class TaglistCollection {
    * Delete the taglist associated with a freetId.
    *
    * @param {string} id - The freetId of freet whose taglist is to be deleted
-   * @return {Promise<Boolean>} - true if the freet has been deleted, false otherwise
+   * @return {Promise<Boolean>} - true if the taglist has been deleted, false otherwise
    */
   static async deleteOne(id: Types.ObjectId | string): Promise<boolean> {
     const taglist = await TaglistModel.deleteOne({freetId: id});
