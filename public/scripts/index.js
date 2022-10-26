@@ -57,7 +57,9 @@ const formsAndHandlers = {
   'delete-vote': deleteVote,
   'get-refs': getRefs,
   'issue-ref': issueRef,
-  'delete-ref': deleteRef
+  'delete-ref': deleteRef,
+  'run-filter': filterBySavedFilter,
+  'run-filter-with-parameters': filterByParameters
 };
 
 // Attach handlers to forms

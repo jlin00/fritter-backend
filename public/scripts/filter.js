@@ -58,3 +58,15 @@ function deleteFilter(fields) {
     .then(showResponse)
     .catch(showResponse);
 }
+
+function filterBySavedFilter(fields) {
+  fetch(`/api/content?name=${fields.name}`)
+    .then(showResponse)
+    .catch(showResponse);
+}
+
+function filterByParameters(fields) {
+  fetch(`/api/content?usernames=${fields.usernames}&tags=${fields.tags}`)
+    .then(showResponse)
+    .catch(showResponse);
+}

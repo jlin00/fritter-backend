@@ -91,6 +91,22 @@ class UserCollection {
     const user = await UserModel.deleteOne({_id: userId});
     return user !== null;
   }
+
+  /**
+   * Given list of usernames, return list of corresponding users.
+   *
+   * @param {string[]} usernames - A lsit of usernames
+   * @returns {Promise<HydratedDocument<User>[]>} - A list of users
+   */
+  static async retrieveUsers(usernames: string[]): Promise<Array<HydratedDocument<User>>> {
+    const promises = [];
+
+    for (const username of usernames) {
+      promises.push(this.findOneByUsername(username));
+    }
+
+    return Promise.all(promises);
+  }
 }
 
 export default UserCollection;

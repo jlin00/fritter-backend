@@ -13,7 +13,7 @@ import {userRouter} from '../user/router';
 import {freetRouter} from '../freet/router';
 import {taglistRouter} from '../taglist/router';
 import {followRouter} from '../follow/router';
-import {filterRouter} from '../filter/router';
+import {filterRouter, searchRouter} from '../filter/router';
 import {factCheckRouter} from '../factcheck/router';
 
 // Load environmental variables
@@ -84,6 +84,7 @@ app.use('/api/tags', taglistRouter);
 app.use('/api/follow', followRouter);
 app.use('/api/filters', filterRouter);
 app.use('/api/credibility', factCheckRouter);
+app.use('/api/content', searchRouter);
 
 // Catch all the other routes and display error message
 app.all('*', (req: Request, res: Response) => {

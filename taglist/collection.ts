@@ -61,6 +61,16 @@ class TaglistCollection {
     const taglist = await TaglistModel.deleteOne({freetId: id});
     return taglist !== null;
   }
+
+  /**
+   * Get all taglists containing tags in a given list of tags.
+   *
+   * @param {string[]} tags - The tags to filter for
+   * @returns {Promise<HydratedDocument<Taglist>[]>} - The array of taglists matching parameters
+   */
+  static async filterByTag(tags: Types.ObjectId[] | string[]): Promise<Array<HydratedDocument<Taglist>>> {
+    return TaglistModel.find({tags: {$in: tags}});
+  }
 }
 
 export default TaglistCollection;

@@ -8,6 +8,11 @@ import {Types} from 'mongoose';
  * Check that filter name is given and belongs to an existing filter
  */
 const isFilterNameExists = async (req: Request, res: Response, next: NextFunction) => {
+  if (req.query.usernames !== undefined || req.query.tags !== undefined) {
+    next();
+    return;
+  }
+
   if (!req.query.name) {
     res.status(400).json({
       error: {
@@ -34,7 +39,7 @@ const isFilterNameExists = async (req: Request, res: Response, next: NextFunctio
  * Check that user does not already have another filter with the same name
  */
 const isFilterNameNotAlreadyInUse = async (req: Request, res: Response, next: NextFunction) => {
-  if (req.params.filterId !== undefined) {
+  if (req.params.filterId !== undefined) { // Update filter
     const currentFilter = await FilterCollection.findOne(req.params.filterId);
     if (req.body.name !== currentFilter.name) {
       const filter = await FilterCollection.findOneByUserIdAndName(req.session.userId, req.body.name);
@@ -47,7 +52,7 @@ const isFilterNameNotAlreadyInUse = async (req: Request, res: Response, next: Ne
         return;
       }
     }
-  } else if (req.params.filterId === undefined) {
+  } else if (req.params.filterId === undefined) { // Create new flter
     const filter = await FilterCollection.findOneByUserIdAndName(req.session.userId, req.body.name);
     if (filter) {
       res.status(409).json({
@@ -83,8 +88,16 @@ const isValidFilterName = async (req: Request, res: Response, next: NextFunction
  * Check that all usernames in a given list are recognized
  */
 const isValidUsernameList = async (req: Request, res: Response, next: NextFunction) => {
+  let usernames;
+  if (req.query.usernames !== undefined) {
+    usernames = (req.query.usernames as string) === '' ? [] : (req.query.usernames as string).split(',');
+  } else if (req.query.usernames === undefined) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    usernames = req.body.usernames;
+  }
+
   const promises = [];
-  for (const username of req.body.usernames) {
+  for (const username of usernames) {
     promises.push(UserCollection.findOneByUsername(username));
   }
 
@@ -136,11 +149,28 @@ const isValidFilterModifier = async (req: Request, res: Response, next: NextFunc
   next();
 };
 
+/**
+ * Check that parameters are valid
+ */
+const isValidParameters = async (req: Request, res: Response, next: NextFunction) => {
+  if (req.query.usernames === undefined || req.query.tags === undefined) {
+    res.status(400).json({
+      error: {
+        message: 'Provided parameters must be nonempty.'
+      }
+    });
+    return;
+  }
+
+  next();
+};
+
 export {
   isFilterNameExists,
   isFilterNameNotAlreadyInUse,
   isValidFilterName,
   isValidUsernameList,
   isFilterExists,
-  isValidFilterModifier
+  isValidFilterModifier,
+  isValidParameters
 };

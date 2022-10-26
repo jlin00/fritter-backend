@@ -12,9 +12,7 @@ function getVotes(fields) {
 }
 
 function issueVote(fields) {
-  console.log(fields.credible);
   fields.credible = fields.credible === 'true';
-  console.log(fields.credible);
   fetch(`/api/credibility/${fields.id}/votes`, {method: 'POST', body: JSON.stringify(fields), headers: {'Content-Type': 'application/json'}})
     .then(showResponse)
     .catch(showResponse);

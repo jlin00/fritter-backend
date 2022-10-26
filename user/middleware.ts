@@ -105,6 +105,11 @@ const isUsernameNotAlreadyInUse = async (req: Request, res: Response, next: Next
  * Checks if the user is logged in, that is, whether the userId is set in session
  */
 const isUserLoggedIn = (req: Request, res: Response, next: NextFunction) => {
+  if (req.query.usernames !== undefined || req.query.tags !== undefined) {
+    next();
+    return;
+  }
+
   if (!req.session.userId) {
     res.status(403).json({
       error: {

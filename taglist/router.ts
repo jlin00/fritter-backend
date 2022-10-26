@@ -56,8 +56,9 @@ router.post(
     taglistValidator.isValidTaglist
   ],
   async (req: Request, res: Response) => {
-    const tags = await retrieveTags(req.body.tags);
-    const taglist = await TaglistCollection.addOne(req.params.freetId, tags);
+    const tags = await TagCollection.findOrCreateMany(req.body.tags);
+    const tagIds = tags.map(t => t._id);
+    const taglist = await TaglistCollection.addOne(req.params.freetId, tagIds);
 
     res.status(200).json({
       message: 'Tags were added to your freet successfully.',
@@ -116,30 +117,14 @@ router.put(
     taglistValidator.isValidTaglist
   ],
   async (req: Request, res: Response) => {
-    const tags = await retrieveTags(req.body.tags);
-    const taglist = await TaglistCollection.updateOne(req.params.freetId, tags);
+    const tags = await TagCollection.findOrCreateMany(req.body.tags);
+    const tagIds = tags.map(t => t._id);
+    const taglist = await TaglistCollection.updateOne(req.params.freetId, tagIds);
     res.status(200).json({
       message: 'Your freet was updated successfully.',
       taglist: util.constructTaglistResponse(taglist)
     });
   }
 );
-
-/**
- * Given list of strings representing tags, return tag objects.
- *
- * @param {string[]} taglist - A list of tags represented as strings
- * @returns {Types.ObjectId[]} - A list of ids associated with the tag objects
- */
-export const retrieveTags = async (taglist: string[]): Promise<Types.ObjectId[]> => {
-  const promises = [];
-
-  for (const tag of taglist) {
-    promises.push(TagCollection.findOrCreateOne(tag));
-  }
-
-  const tags: Tag[] = await Promise.all(promises);
-  return tags.map(tag => tag._id);
-};
 
 export {router as taglistRouter};

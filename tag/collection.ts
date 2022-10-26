@@ -30,6 +30,22 @@ class TagCollection {
 
     return tag;
   }
+
+  /**
+   * Get or create a list of tag objects.
+   *
+   * @param {string[]} names - List of tag names
+   * @return {Promise<HydratedDocument<Tag>[]>} - List of tag objects
+   */
+  static async findOrCreateMany(names: string[]): Promise<Array<HydratedDocument<Tag>>> {
+    const promises = [];
+
+    for (const name of names) {
+      promises.push(this.findOrCreateOne(name));
+    }
+
+    return Promise.all(promises);
+  }
 }
 
 export default TagCollection;

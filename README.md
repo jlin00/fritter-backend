@@ -192,28 +192,6 @@ This renders the `index.html` file that will be used to interact with the backen
 - `400` if `author` is not given
 - `404` if `author` is not a recognized username of any user
 
-#### `GET /api/freets?authors=USERNAMES&tags=TAGS` - Get freets matching a specified filter
-
-**Returns**
-
-- An array of freets whose author or tags match `authors` and `tags`, respectively
-
-**Throws**
-
-- `404` if there are unrecognized usernames in `authors`
-
-#### `GET /api/freets?filter=NAME` - Get freets matching a saved filter
-
-**Returns**
-
-- An array of freets matching the saved filter with name `filter`
-
-**Throws**
-
-- `403` if the user is not logged in
-- `400` if `filter` is not given
-- `404` if `filter` is not a recognized name of any filter belonging to the user
-
 #### `POST /api/freets` - Create a new freet
 
 **Body**
@@ -599,3 +577,27 @@ This renders the `index.html` file that will be used to interact with the backen
 - `404` if the freetId is invalid
 - `403` if the user is not the author of the freet
 - `404` if there is no list of tags associated with that freet
+
+#### `GET /api/content?authors=USERNAMES&tags=TAGS` - Get freets matching specified parameters
+
+**Returns**
+
+- An array of freets whose author or tags match `authors` and `tags`, respectively
+
+**Throws**
+
+- `400` if `authors` or `tags` is not given
+- `404` if there are unrecognized usernames in `authors`
+- `404` if there are poorly formatted tags in `tags`
+
+#### `GET /api/content?name=NAME` - Get freets matching a filter
+
+**Returns**
+
+- An array of freets matching the saved filter with name `name`
+
+**Throws**
+
+- `403` if the user is not logged in
+- `400` if `name` is not given
+- `404` if `name` is not a recognized name of any filter belonging to the user
