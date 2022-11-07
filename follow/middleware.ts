@@ -130,7 +130,7 @@ const isNotInFollowing = async (req: Request, res: Response, next: NextFunction)
 const isNotSelf = async (req: Request, res: Response, next: NextFunction) => {
   if (req.body.type === 'User') {
     const user = await UserCollection.findOneByUsername(req.body.source);
-    if (user._id === req.session.userId) {
+    if (user._id.toString() === req.session.userId) {
       res.status(409).json({
         error: {
           message: 'You cannot follow yourself.'

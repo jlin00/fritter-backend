@@ -67,8 +67,8 @@ router.post(
   [
     userValidator.isUserLoggedIn,
     followValidator.isValidType,
-    followValidator.isNotSelf,
     followValidator.isValidSource,
+    followValidator.isNotSelf,
     followValidator.isNotInFollowing
   ],
   async (req: Request, res: Response) => {
